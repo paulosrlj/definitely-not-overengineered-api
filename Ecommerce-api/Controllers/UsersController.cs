@@ -1,4 +1,6 @@
 using Ecommerce_api.Dtos;
+using Ecommerce_api.Dtos.Inbound;
+using Ecommerce_api.Dtos.Outbound;
 using Ecommerce_api.Dtos.Request;
 using Ecommerce_api.Dtos.Response;
 using Ecommerce_api.Models;

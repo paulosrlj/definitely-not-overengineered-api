@@ -1,4 +1,6 @@
 using Ecommerce_api.Dtos;
+using Ecommerce_api.Dtos.Inbound;
+using Ecommerce_api.Dtos.Outbound;
 using Ecommerce_api.Dtos.Request;
 using Ecommerce_api.Dtos.Response;
 using Ecommerce_api.Exceptions;
@@ -29,7 +31,7 @@ public class UserService : IUsersService
         var hashedPassword = BCrypt.Net.BCrypt.HashPassword(request.Password, 10);
 
         var user = await _userRepository.CreateAsync(
-            new CreateUserData(request.Name, request.Email, hashedPassword, request.Role, request.Phone));
+            new CreateUserModelData(request.Name, request.Email, hashedPassword, request.Role, request.Phone));
 
         return UserResponse.FromEntity(user);
     }
@@ -55,6 +57,13 @@ public class UserService : IUsersService
 
         _cache.Set(cacheKey, user, TimeSpan.FromMinutes(1));
         return UserResponse.FromEntity(user);
+    }
+
+    public async Task<UserResponse> FindByEmailAsync(string email)
+    {
+        var user = await  _userRepository.FindByEmailAsync(email) ?? throw new NotFoundException("User");
+        
+        return  UserResponse.FromEntity(user);
     }
 
     public async Task<UserResponse> UpdateAsync(int id, UpdateUserRequest request)

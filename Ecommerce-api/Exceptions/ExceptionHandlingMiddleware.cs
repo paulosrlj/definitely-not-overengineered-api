@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Mvc;
+
 namespace Ecommerce_api.Exceptions;
 
 public class ExceptionHandlingMiddleware
@@ -22,5 +24,16 @@ public class ExceptionHandlingMiddleware
             context.Response.StatusCode = StatusCodes.Status409Conflict;
             await context.Response.WriteAsJsonAsync(new { message = ex.Message });
         }
+        catch (BadCredentialsException ex)
+        {
+            context.Response.StatusCode = StatusCodes.Status400BadRequest;
+
+            await context.Response.WriteAsJsonAsync(new ProblemDetails(){
+                Status = StatusCodes.Status400BadRequest,
+                Title = "Bad credentials",
+                Type = "https://tools.ietf.org/html/rfc9110#section-15.5.2"
+            });
+        }
+
     }
 }

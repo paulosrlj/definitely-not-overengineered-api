@@ -1,4 +1,5 @@
 using Ecommerce_api.Data;
+using Ecommerce_api.Dtos.Inbound;
 using Ecommerce_api.Models;
 using Ecommerce_api.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -10,9 +11,9 @@ public class UserRepository : IUserRepository
     private readonly AppDbContext _context;
     public UserRepository(AppDbContext context) => _context = context;
 
-    public async Task<User> CreateAsync(CreateUserData data)
+    public async Task<User> CreateAsync(CreateUserModelData data)
     {
-        var user = CreateUserData.ToModel(data);
+        var user = CreateUserModelData.ToModel(data);
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
         return user;
