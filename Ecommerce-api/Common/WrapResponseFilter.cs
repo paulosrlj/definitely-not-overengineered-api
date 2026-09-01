@@ -1,4 +1,4 @@
-using Ecommerce_api.Dtos;
+using Ecommerce_api.Common.Pagination;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 

@@ -1,6 +1,6 @@
 using Ecommerce_api.Common;
 
-namespace Ecommerce_api.Dtos.Response;
+namespace Ecommerce_api.Common.Pagination;
 
 public record PaginationMeta(int Page, int Limit, int Total, int TotalPages);
 

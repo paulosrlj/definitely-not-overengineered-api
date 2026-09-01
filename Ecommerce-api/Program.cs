@@ -1,13 +1,17 @@
 using System.Text;
-using Ecommerce_api.Auth;
-using Ecommerce_api.Auth.Interfaces;
 using Ecommerce_api.Common;
 using Ecommerce_api.Data;
 using Ecommerce_api.Exceptions;
-using Ecommerce_api.Repositories;
-using Ecommerce_api.Repositories.Interfaces;
-using Ecommerce_api.Services;
-using Ecommerce_api.Services.Interfaces;
+using Ecommerce_api.Features.Auth;
+using Ecommerce_api.Features.Auth.Signin;
+using Ecommerce_api.Features.Auth.Signup;
+using Ecommerce_api.Features.Users;
+using Ecommerce_api.Features.Users.Create;
+using Ecommerce_api.Features.Users.Delete;
+using Ecommerce_api.Features.Users.FindAll;
+using Ecommerce_api.Features.Users.FindOne;
+using Ecommerce_api.Features.Users.Update;
+using Ecommerce_api.Infrastructure.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -50,10 +54,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddMemoryCache();
 // DI
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IUsersService, UserService>();
-builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddAuthFeature();
+builder.Services.AddUserFeature();
 
 // JWT //
 // Binda a seção "Jwt" do appsettings, à classe JwtSettings
@@ -83,6 +86,18 @@ builder.Services.AddAuthorization(options =>
 });
 
 
+// CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "_myAllowSpecificOrigins",
+        policy  =>
+        {
+            policy.WithOrigins("http://localhost:5173")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
+
 // Custom exception
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
@@ -103,6 +118,9 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 });
 
 var app = builder.Build();
+app.UseHttpsRedirection();
+app.UseMiddleware<ExceptionHandlingMiddleware>(); 
+app.UseCors("_myAllowSpecificOrigins");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -115,8 +133,6 @@ if (app.Environment.IsDevelopment())
 app.UseAuthentication(); // sempre antes de UseAuthorization
 app.UseAuthorization();
 
-app.UseMiddleware<ExceptionHandlingMiddleware>(); 
-app.UseHttpsRedirection();
 app.MapControllers();
 
 app.Run();
