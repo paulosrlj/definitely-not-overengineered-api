@@ -1,1 +1,7 @@
 .idea
+/Ecommerce-api.Tests/bin/
+# Ignore build and cache directories
+[Dd]ebug/
+obj/
+**/bin/[Dd]ebug/
+**/obj/
