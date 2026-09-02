@@ -28,6 +28,7 @@
 
     <ItemGroup>
       <Folder Include="Infrastructure\DependencyInjection\" />
+      <Folder Include="Migrations\" />
     </ItemGroup>
 
 </Project>
