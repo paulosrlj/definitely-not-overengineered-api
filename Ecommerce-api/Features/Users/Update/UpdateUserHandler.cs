@@ -3,7 +3,6 @@ using Ecommerce_api.Domain;
 using Ecommerce_api.Exceptions;
 using Ecommerce_api.Infrastructure.Cache;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace Ecommerce_api.Features.Users.Update;
 
@@ -23,7 +22,7 @@ public class UpdateUserHandler
         UpdateUserRequest request,
         CancellationToken cancellationToken)
     {
-        var cacheKey = $"product:{id}";
+        var cacheKey = $"user:{id}";
         var user = await _cache.GetAsync<User>(cacheKey);
 
         if (user is null)

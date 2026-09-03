@@ -10,6 +10,7 @@ public class AppDbContext : DbContext
 
     public DbSet<User> Users => Set<User>();
     public DbSet<Product> Products => Set<Product>();
+    public DbSet<Category> Categories => Set<Category>();
     public DbSet<File> Files => Set<File>();
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)

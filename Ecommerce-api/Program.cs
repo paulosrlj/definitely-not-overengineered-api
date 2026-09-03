@@ -3,6 +3,7 @@ using Ecommerce_api.Common;
 using Ecommerce_api.Data;
 using Ecommerce_api.Exceptions;
 using Ecommerce_api.Features.Auth;
+using Ecommerce_api.Features.Categories;
 using Ecommerce_api.Features.Users;
 using Ecommerce_api.Infrastructure.Auth;
 using Ecommerce_api.Infrastructure.Cache;
@@ -56,6 +57,7 @@ builder.Services.AddScoped<ICacheService, RedisService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddAuthFeature();
 builder.Services.AddUserFeature();
+builder.Services.AddCategoryFeature();
 
 
 // JWT //
