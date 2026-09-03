@@ -1,3 +1,5 @@
+using Ecommerce_api.Domain.Orders;
+
 namespace Ecommerce_api.Domain;
 
 public class Product : IAuditable
@@ -12,4 +14,9 @@ public class Product : IAuditable
     public DateTime UpdatedAt { get; set; }  =  DateTime.UtcNow;
     
     public ICollection<Category> Categories { get; set; } = new List<Category>();
+    
+    public ICollection<File> Files { get; set; } = new List<File>();
+    
+    public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+
 }

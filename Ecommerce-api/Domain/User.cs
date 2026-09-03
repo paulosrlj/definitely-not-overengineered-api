@@ -8,7 +8,10 @@ public class User : IAuditable
     public string Password { get; set; } = string.Empty;
     public string? Phone { get; set; }
     public UserRole Role { get; set; } = UserRole.Customer;
+    
 
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
+    
+    
 }

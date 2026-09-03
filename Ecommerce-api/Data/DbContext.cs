@@ -1,5 +1,6 @@
 using Ecommerce_api.Domain;
 using Microsoft.EntityFrameworkCore;
+using File = Ecommerce_api.Domain.File;
 
 namespace Ecommerce_api.Data;
 
@@ -9,7 +10,7 @@ public class AppDbContext : DbContext
 
     public DbSet<User> Users => Set<User>();
     public DbSet<Product> Products => Set<Product>();
-    public DbSet<Category> Categories => Set<Category>();
+    public DbSet<File> Files => Set<File>();
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -20,6 +21,19 @@ public class AppDbContext : DbContext
             .HasMany(p => p.Categories)
             .WithMany()
             .UsingEntity(j => j.ToTable("product_categories"));
+        
+        
+        modelBuilder.Entity<Product>()
+            .HasMany(p => p.Files)
+            .WithOne(f => f.Product)
+            .HasForeignKey(f => f.ProductId)
+            .IsRequired();
+        
+        modelBuilder.Entity<File>()
+            .HasOne(f => f.Product)
+            .WithMany(p => p.Files)
+            .HasForeignKey(f => f.ProductId)
+            .IsRequired();
     }
 
     public override Task<int> SaveChangesAsync(

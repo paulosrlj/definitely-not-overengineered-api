@@ -1,5 +1,7 @@
 using Ecommerce_api.Data;
+using Ecommerce_api.Domain;
 using Ecommerce_api.Exceptions;
+using Ecommerce_api.Infrastructure.Cache;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 
@@ -8,9 +10,9 @@ namespace Ecommerce_api.Features.Users.Update;
 public class UpdateUserHandler
 {
     private readonly AppDbContext _context;
-    private readonly IMemoryCache _cache;
+    private readonly ICacheService _cache;
 
-    public UpdateUserHandler(AppDbContext dbContext, IMemoryCache cache)
+    public UpdateUserHandler(AppDbContext dbContext, ICacheService cache)
     {
         _context = dbContext;
         _cache = cache;
@@ -21,13 +23,19 @@ public class UpdateUserHandler
         UpdateUserRequest request,
         CancellationToken cancellationToken)
     {
-        var user = await _context.Users
-            .FirstOrDefaultAsync(
-                user => user.Id == id,
-                cancellationToken);
+        var cacheKey = $"product:{id}";
+        var user = await _cache.GetAsync<User>(cacheKey);
 
         if (user is null)
-            throw new NotFoundException("User");
+        {
+            user = await _context.Users
+                .FirstOrDefaultAsync(
+                    user => user.Id == id,
+                    cancellationToken);
+
+            if (user is null)
+                throw new NotFoundException("User");
+        }
 
         if (request.Name is not null)
             user.Name = request.Name;
@@ -58,9 +66,10 @@ public class UpdateUserHandler
         
         // TODO: Check if user is admin to update the role
         
+        //
         await _context.SaveChangesAsync(cancellationToken);
 
-        _cache.Remove($"user:{id}");
+        await _cache.RemoveAsync(cacheKey);
 
         return UpdateUserResponse.FromEntity(user);
     }
