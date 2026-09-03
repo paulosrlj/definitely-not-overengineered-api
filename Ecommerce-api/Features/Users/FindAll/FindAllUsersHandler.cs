@@ -1,19 +1,16 @@
 using Ecommerce_api.Common.Pagination;
 using Ecommerce_api.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace Ecommerce_api.Features.Users.FindAll;
 
 public class FindAllUsersHandler
 {
     private readonly AppDbContext _context;
-    private readonly IMemoryCache _cache;
 
-    public FindAllUsersHandler(AppDbContext dbContext, IMemoryCache cache)
+    public FindAllUsersHandler(AppDbContext dbContext)
     {
         _context = dbContext;
-        _cache = cache;
     }
 
     public async Task<PaginatedResponse<FindAllUsersResponse>> Handle(

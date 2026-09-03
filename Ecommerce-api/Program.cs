@@ -3,15 +3,9 @@ using Ecommerce_api.Common;
 using Ecommerce_api.Data;
 using Ecommerce_api.Exceptions;
 using Ecommerce_api.Features.Auth;
-using Ecommerce_api.Features.Auth.Signin;
-using Ecommerce_api.Features.Auth.Signup;
 using Ecommerce_api.Features.Users;
-using Ecommerce_api.Features.Users.Create;
-using Ecommerce_api.Features.Users.Delete;
-using Ecommerce_api.Features.Users.FindAll;
-using Ecommerce_api.Features.Users.FindOne;
-using Ecommerce_api.Features.Users.Update;
 using Ecommerce_api.Infrastructure.Auth;
+using Ecommerce_api.Infrastructure.Cache;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +14,6 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
-
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -52,11 +45,18 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddMemoryCache();
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = "localhost:6379";
+    options.InstanceName = "SampleInstance:";
+});
+
 // DI
+builder.Services.AddScoped<ICacheService, RedisService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddAuthFeature();
 builder.Services.AddUserFeature();
+
 
 // JWT //
 // Binda a seção "Jwt" do appsettings, à classe JwtSettings
