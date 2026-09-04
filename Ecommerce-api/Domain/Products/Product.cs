@@ -1,6 +1,6 @@
 using Ecommerce_api.Domain.Orders;
 
-namespace Ecommerce_api.Domain;
+namespace Ecommerce_api.Domain.Products;
 
 public class Product : IAuditable
 {
@@ -15,7 +15,7 @@ public class Product : IAuditable
     
     public ICollection<Category> Categories { get; set; } = new List<Category>();
     
-    public ICollection<File> Files { get; set; } = new List<File>();
+    public ICollection<ProductFile> Files { get; set; } = new List<ProductFile>();
     
     public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 

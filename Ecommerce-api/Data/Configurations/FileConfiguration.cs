@@ -31,10 +31,6 @@ public class FileConfiguration : IEntityTypeConfiguration<File>
             .HasMaxLength(255)
             .IsRequired();
         
-        builder.Property(file => file.StorageUrl)
-            .HasMaxLength(255)
-            .IsRequired();
-
         builder.Property(user => user.CreatedAt)
             .IsRequired();
 

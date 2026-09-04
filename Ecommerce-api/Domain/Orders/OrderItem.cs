@@ -1,3 +1,5 @@
+using Ecommerce_api.Domain.Products;
+
 namespace Ecommerce_api.Domain.Orders;
 
 public class OrderItem

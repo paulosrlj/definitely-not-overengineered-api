@@ -7,13 +7,9 @@ public class File : IAuditable
     public string ContentType { get; set; } = string.Empty;
     public long Size { get; set; } 
     public string StorageKey { get; set; }  = string.Empty;
-    public string StorageUrl { get; set; }  = string.Empty;
     public StorageProvider Provider { get; set; }
 
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
     
-    public int ProductId { get; set; }
-    public Product Product { get; set; } = null!;
-
 }

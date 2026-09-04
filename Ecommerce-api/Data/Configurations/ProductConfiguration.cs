@@ -1,4 +1,4 @@
-using Ecommerce_api.Domain;
+using Ecommerce_api.Domain.Products;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
