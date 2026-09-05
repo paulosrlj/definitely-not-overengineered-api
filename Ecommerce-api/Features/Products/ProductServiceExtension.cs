@@ -1,21 +1,21 @@
-using Ecommerce_api.Features.Categories.Create;
-using Ecommerce_api.Features.Categories.Delete;
-using Ecommerce_api.Features.Categories.FindAll;
-using Ecommerce_api.Features.Categories.FindOne;
-using Ecommerce_api.Features.Categories.Update;
+using Ecommerce_api.Features.Products.Create;
+using Ecommerce_api.Features.Products.Delete;
+using Ecommerce_api.Features.Products.FindAll;
+using Ecommerce_api.Features.Products.FindOne;
+using Ecommerce_api.Features.Products.Update;
 
 namespace Ecommerce_api.Features.Products;
 
 public static class ProductServiceExtension
 {
-    public static IServiceCollection AddproductFeature(
+    public static IServiceCollection AddProductFeature(
         this IServiceCollection services)
     {
-        services.AddScoped<CreateCategoryHandler>();
-        services.AddScoped<FindAllCategoriesHandler>();
-        services.AddScoped<FindOneCategoryHandler>();
-        services.AddScoped<UpdateCategoryHandler>();
-        services.AddScoped<DeleteCategoryHandler>();
+        services.AddScoped<CreateProductHandler>();
+        services.AddScoped<FindAllProductsHandler>();
+        services.AddScoped<FindOneProductHandler>();
+        services.AddScoped<UpdateProductHandler>();
+        services.AddScoped<DeleteProductHandler>();
         
         return services;
     }

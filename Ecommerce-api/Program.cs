@@ -6,6 +6,7 @@ using Ecommerce_api.Data;
 using Ecommerce_api.Exceptions;
 using Ecommerce_api.Features.Auth;
 using Ecommerce_api.Features.Categories;
+using Ecommerce_api.Features.Products;
 using Ecommerce_api.Features.Users;
 using Ecommerce_api.Infrastructure.Auth;
 using Ecommerce_api.Infrastructure.Cache;
@@ -61,6 +62,7 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddAuthFeature();
 builder.Services.AddUserFeature();
 builder.Services.AddCategoryFeature();
+builder.Services.AddProductFeature();
 
 
 // JWT //
@@ -130,6 +132,7 @@ var credentials = new BasicAWSCredentials(awsSettings!.S3.AccessKey, awsSettings
 builder.Services.AddSingleton<IAmazonS3>(sp => 
     new AmazonS3Client(credentials, Amazon.RegionEndpoint.USEast1)
 );
+builder.Services.AddScoped<IFileUrlGenerator, CloudFrontFileUrlGenerator>();
 
 // builder.Services.Configure<S3Settings>(builder.Configuration.GetSection("AWS:S3"));
 // builder.Services.AddDefaultAWSOptions(builder.Configuration.GetAWSOptions());

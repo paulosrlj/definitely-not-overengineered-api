@@ -4,11 +4,11 @@ namespace Ecommerce_api.Features.Categories.FindOne;
 
 [ApiController]
 [Route("api/categories")]
-public class FindOneUserEndpoint : ControllerBase
+public class FindOneCategoryEndpoint : ControllerBase
 {
     private readonly FindOneCategoryHandler _handler;
 
-    public FindOneUserEndpoint(FindOneCategoryHandler handler)
+    public FindOneCategoryEndpoint(FindOneCategoryHandler handler)
     {
         _handler = handler;
     }

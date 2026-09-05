@@ -1,3 +1,4 @@
+using Ecommerce_api.Common.Pagination;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce_api.Features.Products.FindAll;
@@ -14,10 +15,11 @@ public class FindAllProductsEndpoint : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<FindAllProductsResponse>>> Handle(
+    public async Task<ActionResult<List<PaginatedResponse<FindAllProductsResponse>>>> Handle(
+        [FromQuery] FindAllProductsRequest request,
         CancellationToken cancellationToken)
     {
-        var result = await _handler.Handle(cancellationToken);
+        var result = await _handler.Handle(request, cancellationToken);
 
         return Ok(result);
     }

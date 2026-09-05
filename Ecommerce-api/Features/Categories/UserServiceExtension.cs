@@ -1,3 +1,5 @@
+
+
 using Ecommerce_api.Features.Categories.Create;
 using Ecommerce_api.Features.Categories.Delete;
 using Ecommerce_api.Features.Categories.FindAll;
@@ -16,7 +18,7 @@ public static class CategoryServiceExtension
         services.AddScoped<FindOneCategoryHandler>();
         services.AddScoped<UpdateCategoryHandler>();
         services.AddScoped<DeleteCategoryHandler>();
-        
+
         return services;
     }
 }
