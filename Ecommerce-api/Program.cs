@@ -124,14 +124,32 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
     };
 });
 
-//AWS
+///////////// AWS //////////////////
 var awsSettings = builder.Configuration.GetSection("AWS").Get<AwsSettings>();
 builder.Services.Configure<AwsSettings>(builder.Configuration.GetSection("AWS"));
 
 var credentials = new BasicAWSCredentials(awsSettings!.S3.AccessKey, awsSettings.S3.SecretKey);
-builder.Services.AddSingleton<IAmazonS3>(sp => 
-    new AmazonS3Client(credentials, Amazon.RegionEndpoint.USEast1)
-);
+builder.Services.AddSingleton<IAmazonS3>(sp =>
+{
+    var config = new AmazonS3Config()
+    {
+        RegionEndpoint = Amazon.RegionEndpoint.USEast1,
+    };
+
+    // Floci
+    // Configurei meu AWS pra usar o floci em ambiente DEV
+    if (!string.IsNullOrEmpty(awsSettings.S3.ServiceUrl))
+    {
+        config.ServiceURL = awsSettings.S3.ServiceUrl;
+        config.ForcePathStyle = true;
+        config.UseHttp = true;
+    }
+    
+    return new AmazonS3Client(credentials, config);
+});
+
+///////// AWS ///////////
+
 builder.Services.AddScoped<IFileUrlGenerator, CloudFrontFileUrlGenerator>();
 
 // builder.Services.Configure<S3Settings>(builder.Configuration.GetSection("AWS:S3"));

@@ -39,13 +39,13 @@ services:
     volumes:
       - redis_data:/data
     command: redis-server --appendonly yes
-    
+  
   floci:
     image: floci/floci:latest
     ports:
       - "4566:4566"
     volumes:
-      - ./floci-data:/app/data
+      - floci-data:/app/data
 
 volumes:
   postgres_data:

@@ -19,13 +19,6 @@ public class AppDbContext : DbContext
     {
         modelBuilder.ApplyConfigurationsFromAssembly(
             typeof(AppDbContext).Assembly);
-        
-        modelBuilder.Entity<Product>()
-            .HasMany(p => p.Categories)
-            .WithMany()
-            .UsingEntity(j => j.ToTable("product_categories"));
-        
-       
     }
 
     public override Task<int> SaveChangesAsync(
