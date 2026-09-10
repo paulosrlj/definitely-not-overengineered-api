@@ -20,13 +20,14 @@ public class AppDbContext : DbContext
         modelBuilder.ApplyConfigurationsFromAssembly(
             typeof(AppDbContext).Assembly);
     }
-
-    public override Task<int> SaveChangesAsync(
-        CancellationToken cancellationToken = default)
+    
+    private void UpdateAuditFields()
     {
         var entries = ChangeTracker
             .Entries<IAuditable>()
-            .Where(e => e.State == EntityState.Modified || e.State == EntityState.Modified);
+            .Where(e =>
+                e.State == EntityState.Added ||
+                e.State == EntityState.Modified);
 
         foreach (var entry in entries)
         {
@@ -37,6 +38,19 @@ public class AppDbContext : DbContext
 
             entry.Entity.UpdatedAt = DateTime.UtcNow;
         }
+    }
+
+    public override int SaveChanges()
+    {
+        UpdateAuditFields();
+
+        return base.SaveChanges();
+    }
+
+    public override Task<int> SaveChangesAsync(
+        CancellationToken cancellationToken = default)
+    {
+        UpdateAuditFields();
 
         return base.SaveChangesAsync(cancellationToken);
     }
