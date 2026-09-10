@@ -15,7 +15,7 @@ public class CreateCategoryEndpoint : ControllerBase
 
     [HttpPost]
     public async Task<ActionResult<CreateCategoryResponse>> Handle(
-        CreateCategoryRequest request,
+        [FromForm] CreateCategoryRequest request,
         CancellationToken cancellationToken)
     {
         var result = await _handler.Handle(request, cancellationToken);
