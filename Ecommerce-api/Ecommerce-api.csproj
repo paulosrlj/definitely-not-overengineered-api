@@ -30,7 +30,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Config\" />
       <Folder Include="Features\Orders\Create\" />
     </ItemGroup>
 

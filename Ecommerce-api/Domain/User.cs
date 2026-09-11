@@ -9,9 +9,7 @@ public class User : IAuditable
     public string? Phone { get; set; }
     public UserRole Role { get; set; } = UserRole.Customer;
     
-
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
-    
     
 }
