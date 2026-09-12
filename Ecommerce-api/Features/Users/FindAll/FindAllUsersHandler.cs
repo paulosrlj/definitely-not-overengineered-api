@@ -7,16 +7,19 @@ namespace Ecommerce_api.Features.Users.FindAll;
 public class FindAllUsersHandler
 {
     private readonly AppDbContext _context;
+    private readonly ILogger<FindAllUsersHandler> _logger;
 
-    public FindAllUsersHandler(AppDbContext dbContext)
+    public FindAllUsersHandler(AppDbContext dbContext,  ILogger<FindAllUsersHandler> logger)
     {
         _context = dbContext;
+        _logger = logger;
     }
 
     public async Task<PaginatedResponse<FindAllUsersResponse>> Handle(
         FindAllUsersRequest request,
         CancellationToken cancellationToken)
     {
+        _logger.LogInformation("FindAllUsers request received");
         var skip = (request.Page - 1) * request.Limit;
         var query = _context.Users.AsNoTracking().AsQueryable();
         
@@ -28,10 +31,14 @@ public class FindAllUsersHandler
         }
 
         var total = await query.CountAsync(cancellationToken);
-        var users = await query.Skip(skip).Take(request.Limit).ToListAsync(cancellationToken);
+        var users = await query
+            .OrderBy(u => u.Id)
+            .Skip(skip)
+            .Take(request.Limit)
+            .ToListAsync(cancellationToken);
         
         return new PaginatedResponse<FindAllUsersResponse>(
-            users.Select(FindAllUsersResponse.FromEntity).ToList(), total, request.Page, request.Limit); 
+            users.Select(FindAllUsersResponse.FromEntity).ToList(), total, request.Page, request.Limit);
     }
 }
 

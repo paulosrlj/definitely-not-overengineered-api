@@ -7,9 +7,6 @@ public static class RedisConfig
 {
     public static IServiceCollection AddRedisService(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<AppDbContext>(options =>
-            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
-
         services.AddStackExchangeRedisCache(options =>
         {
             options.Configuration = "localhost:6379";
