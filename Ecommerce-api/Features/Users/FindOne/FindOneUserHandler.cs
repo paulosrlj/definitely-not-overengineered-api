@@ -10,24 +10,27 @@ public class FindOneUserHandler
 {
     private readonly AppDbContext _context;
     private readonly ICacheService _cache;
+    private readonly ILogger<FindOneUserHandler> _logger;
 
-    public FindOneUserHandler(AppDbContext dbContext, ICacheService cache)
+    public FindOneUserHandler(AppDbContext dbContext, ICacheService cache,  ILogger<FindOneUserHandler> logger)
     {
         _context = dbContext;
         _cache = cache;
+        _logger = logger;
     }
 
     public async Task<FindOneUserResponse> Handle(
         int id,
         CancellationToken cancellationToken)
     {
+        _logger.LogInformation("Fetching user with id {UserId}", id);
+        
         var cacheKey = $"product:{id}";
         var cached = await _cache.GetAsync<User>(cacheKey);
 
         if (cached is not null)
             return FindOneUserResponse.FromEntity(cached);
         
-
         var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id, cancellationToken)
                    ?? throw new NotFoundException("User");
         

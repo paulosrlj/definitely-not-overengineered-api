@@ -9,10 +9,14 @@ using Ecommerce_api.Infrastructure.FileStorage;
 using Ecommerce_api.Middleware;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+
+builder.Host.SetupSerilog();
+
 builder.Services.AddOpenApi();
 builder.Services.AddControllers(options =>
 {
@@ -43,6 +47,7 @@ builder.Services.AddScoped<IFileUrlGenerator, CloudFrontFileUrlGenerator>();
 builder.Services.AddScoped<IFileStorage, S3FileStorage>();
 
 var app = builder.Build();
+app.UseSerilogRequestLogging();
 app.UseHttpsRedirection();
 
 // Middlewares
