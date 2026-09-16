@@ -1,6 +1,7 @@
 using Ecommerce_api.Domain.Products;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using NpgsqlTypes;
 
 namespace Ecommerce_api.Data.Configurations;
 
@@ -22,10 +23,10 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 
         builder.Property(product => product.Price)
             .IsRequired();
-        
+
         builder.Property(product => product.Stock)
             .IsRequired();
-        
+
         builder.Property(user => user.CreatedAt)
             .IsRequired();
 
@@ -36,11 +37,19 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             .WithOne(item => item.Product)
             .HasForeignKey(item => item.ProductId)
             .OnDelete(DeleteBehavior.Restrict);
-        
+
         builder
             .HasMany(p => p.Categories)
             .WithMany()
             .UsingEntity(j => j.ToTable("product_categories"));
-    }
 
+        builder.Property<NpgsqlTsVector>("SearchVector")
+            .HasComputedColumnSql(
+                "to_tsvector('portuguese', coalesce(\"Name\", '') || ' ' || coalesce(\"Description\", ''))",
+                stored: true
+            );
+
+        builder.HasIndex("SearchVector")
+            .HasMethod("GIN");
+    }
 }
