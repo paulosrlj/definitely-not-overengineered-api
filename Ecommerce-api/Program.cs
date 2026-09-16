@@ -15,7 +15,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 
-builder.Host.SetupSerilog();
+if (builder.Environment.IsProduction())
+{
+    builder.Host.SetupSerilog();
+}
 
 builder.Services.AddOpenApi();
 builder.Services.AddControllers(options =>
@@ -47,7 +50,12 @@ builder.Services.AddScoped<IFileUrlGenerator, CloudFrontFileUrlGenerator>();
 builder.Services.AddScoped<IFileStorage, S3FileStorage>();
 
 var app = builder.Build();
-app.UseSerilogRequestLogging();
+
+if (app.Environment.IsProduction())
+{
+    app.UseSerilogRequestLogging();
+}
+
 app.UseHttpsRedirection();
 
 // Middlewares
