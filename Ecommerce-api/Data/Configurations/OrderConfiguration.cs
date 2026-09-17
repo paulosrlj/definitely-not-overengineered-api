@@ -20,11 +20,11 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
             .HasConversion<string>()
             .IsRequired();
 
-        builder.Property(order => order.StripeSessionId)
-            .HasMaxLength(255);
-
-        builder.HasIndex(order => order.StripeSessionId)
-            .IsUnique();
+        // Payment
+        builder.HasMany(order => order.Payments)
+            .WithOne(payment => payment.Order)
+            .HasForeignKey(payment => payment.OrderId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.Property(order => order.CreatedAt)
             .IsRequired();

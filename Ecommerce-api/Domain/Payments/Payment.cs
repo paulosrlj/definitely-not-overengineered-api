@@ -11,7 +11,11 @@ public class Payment : IAuditable
 
     public PaymentProvider Provider { get; set; }
     public PaymentStatus Status { get; set; }
-
+    
+    public string? ExternalId { get; set; } = string.Empty;
+    
+    // The total at the time of payment processing
+    public int Total { get; set; }
     
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }

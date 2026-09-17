@@ -1,6 +1,8 @@
 namespace Ecommerce_api.Domain.Payments;
 
-public class PaymentStatus
+public enum PaymentStatus
 {
-    
+    Pending,
+    Paid,
+    Canceled
 }

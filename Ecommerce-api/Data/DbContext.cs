@@ -1,4 +1,6 @@
 using Ecommerce_api.Domain;
+using Ecommerce_api.Domain.Orders;
+using Ecommerce_api.Domain.Payments;
 using Ecommerce_api.Domain.Products;
 using Microsoft.EntityFrameworkCore;
 using File = Ecommerce_api.Domain.File;
@@ -14,6 +16,9 @@ public class AppDbContext : DbContext
     public DbSet<Category> Categories => Set<Category>();
     public DbSet<File> Files => Set<File>();
     public DbSet<ProductFile> ProductFiles => Set<ProductFile>();
+    public DbSet<Order> Orders => Set<Order>();
+    public DbSet<OrderItem> OrderItems => Set<OrderItem>();
+    public DbSet<Payment>  Payments => Set<Payment>();
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
