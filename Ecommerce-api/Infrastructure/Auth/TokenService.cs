@@ -38,4 +38,39 @@ public class TokenService : ITokenService
 
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
+
+    public ClaimsPrincipal? GetPrincipalFromToken(string token)
+    {
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var key = Encoding.UTF8.GetBytes(_settings.Key);
+
+        try
+        {
+            var principal = tokenHandler.ValidateToken(
+                token,
+                new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+
+                    ValidateIssuer = true,
+                    ValidIssuer = _settings.Issuer,
+
+                    ValidateAudience = true,
+                    ValidAudience = _settings.Audience,
+
+                    ValidateLifetime = true,
+
+                    ClockSkew = TimeSpan.Zero
+                },
+                out _
+            );
+
+            return principal;
+        }
+        catch (SecurityTokenException)
+        {
+            return null;
+        }
+    }
 }
