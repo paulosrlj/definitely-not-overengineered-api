@@ -32,6 +32,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddRedisService(builder.Configuration);
 
 // DI
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ICurrentUser, CurrentUser>();
 builder.Services.AddScoped<ICacheService, RedisService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddFeatures();
