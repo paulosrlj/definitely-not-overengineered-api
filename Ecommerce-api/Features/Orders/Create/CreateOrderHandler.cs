@@ -3,7 +3,6 @@ using Ecommerce_api.Domain.Orders;
 using Ecommerce_api.Domain.Payments;
 using Ecommerce_api.Exceptions;
 using Ecommerce_api.Infrastructure.Auth;
-using Ecommerce_api.Infrastructure.FileStorage;
 using Ecommerce_api.Infrastructure.Payments;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,19 +11,16 @@ namespace Ecommerce_api.Features.Orders.Create;
 public class CreateOrderHandler
 {
     private readonly AppDbContext _context;
-    private readonly IFileStorage _fileStorage;
     private readonly IPaymentService _paymentService;
     private readonly ICurrentUser _currentUser;
 
     public CreateOrderHandler(
         AppDbContext dbContext,
-        IFileStorage fileStorage,
         IPaymentService paymentService,
         ICurrentUser currentUser
     )
     {
         _context = dbContext;
-        _fileStorage = fileStorage;
         _paymentService = paymentService;
         _currentUser = currentUser;
     }

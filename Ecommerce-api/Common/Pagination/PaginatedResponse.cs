@@ -8,10 +8,10 @@ public record PaginationMeta(int Page, int Limit, int Total, int TotalPages);
 // Verificar no filtro WrapResponseFilter
 public class PaginatedResponse<T> : IPaginatedResponse
 {
-    public List<T> Data { get; }
+    public IList<T> Data { get; }
     public PaginationMeta Meta { get; }
 
-    public PaginatedResponse(List<T> data, int total, int page, int limit)
+    public PaginatedResponse(IList<T> data, int total, int page, int limit)
     {
         Data = data;
         Meta = new PaginationMeta(page, limit, total, (int)Math.Ceiling(total / (double)limit));
