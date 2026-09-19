@@ -1,14 +1,11 @@
 using Ecommerce_api.Data;
-using Ecommerce_api.Domain;
 using Ecommerce_api.Domain.Orders;
 using Ecommerce_api.Domain.Payments;
-using Ecommerce_api.Domain.Products;
 using Ecommerce_api.Exceptions;
 using Ecommerce_api.Infrastructure.Auth;
 using Ecommerce_api.Infrastructure.FileStorage;
 using Ecommerce_api.Infrastructure.Payments;
 using Microsoft.EntityFrameworkCore;
-using File = Ecommerce_api.Domain.File;
 
 namespace Ecommerce_api.Features.Orders.Create;
 
@@ -32,7 +29,7 @@ public class CreateOrderHandler
         _currentUser = currentUser;
     }
 
-    public async Task Handle(
+    public async Task<CreateOrderResponse> Handle(
         CreateOrderRequest request,
         CancellationToken cancellationToken
     )
@@ -50,7 +47,7 @@ public class CreateOrderHandler
             throw new NotFoundException("One or more products");
 
         var orderItems = new List<OrderItem>();
-
+        
         foreach (var item in request.Items)
         {
             var product = products.First(product => product.Id == item.ProductId);
@@ -70,7 +67,7 @@ public class CreateOrderHandler
                 }
             );
         }
-
+        
         var total = orderItems.Sum(item => item.UnitPrice * item.Quantity);
 
         var order = new Order()
@@ -90,6 +87,7 @@ public class CreateOrderHandler
                 Email = request.Address.Email
             },
             UserId = _currentUser.Id,
+            Items = orderItems
         };
 
         _context.Add(order);
@@ -101,7 +99,12 @@ public class CreateOrderHandler
                     order.Id,
                     order.Address.Email,
                     orderItems.Select(orderItem =>
-                        new PaymentItem(orderItem.Product.Name, orderItem.Quantity, orderItem.UnitPrice)
+                        {
+                            var product = products.Find(p => p.Id == orderItem.ProductId) ??
+                                          throw new NotFoundException("Product");
+
+                            return new PaymentItem(product.Name, orderItem.Quantity, orderItem.UnitPrice);
+                        }
                     ).ToList()
                 ),
                 cancellationToken
@@ -116,5 +119,7 @@ public class CreateOrderHandler
 
         order.Payments.Add(payment);
         await _context.SaveChangesAsync(cancellationToken);
+
+        return CreateOrderResponse.ToResponse(order, payment, paymentSession.CheckoutUrl);
     }
 }
