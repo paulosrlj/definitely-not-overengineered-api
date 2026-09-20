@@ -1,5 +1,6 @@
 using Ecommerce_api.Features.Orders.Create;
 using Ecommerce_api.Features.Orders.FindAll;
+using Ecommerce_api.Features.Orders.FindOne;
 
 namespace Ecommerce_api.Features.Orders;
 
@@ -10,6 +11,7 @@ public static class OrderServiceExtension
     {
         services.AddScoped<CreateOrderHandler>();
         services.AddScoped<FindAllOrdersHandler>();
+        services.AddScoped<FindOneOrderHandler>();
 
         return services;
     }
