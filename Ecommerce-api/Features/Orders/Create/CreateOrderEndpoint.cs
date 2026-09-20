@@ -4,6 +4,7 @@ namespace Ecommerce_api.Features.Orders.Create;
 
 [ApiController]
 [Route("api/orders")]
+[Tags("Orders")]
 public class CreateOrderEnpoint : ControllerBase
 {
     private readonly CreateOrderHandler _handler;

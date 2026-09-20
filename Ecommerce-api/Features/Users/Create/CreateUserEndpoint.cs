@@ -4,6 +4,7 @@ namespace Ecommerce_api.Features.Users.Create;
 
 [ApiController]
 [Route("api/users")]
+[Tags("Users")]
 public class CreateUserEndpoint : ControllerBase
 {
     private readonly CreateUserHandler _handler;

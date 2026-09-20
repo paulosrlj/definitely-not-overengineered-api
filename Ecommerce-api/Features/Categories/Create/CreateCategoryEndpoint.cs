@@ -4,6 +4,7 @@ namespace Ecommerce_api.Features.Categories.Create;
 
 [ApiController]
 [Route("api/categories")]
+[Tags("Categories")]
 public class CreateCategoryEndpoint : ControllerBase
 {
     private readonly CreateCategoryHandler _handler;

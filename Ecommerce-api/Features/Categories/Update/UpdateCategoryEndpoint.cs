@@ -4,6 +4,7 @@ namespace Ecommerce_api.Features.Categories.Update;
 
 [ApiController]
 [Route("api/categories")]
+[Tags("Categories")]
 public class UpdateCategoryEndpoint : ControllerBase
 {
     private readonly UpdateCategoryHandler _handler;

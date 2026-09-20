@@ -4,6 +4,7 @@ namespace Ecommerce_api.Features.Users.Delete;
 
 [ApiController]
 [Route("api/users")]
+[Tags("Users")]
 public class DeleteUserEndpoint : ControllerBase
 {
     private readonly DeleteUserHandler _handler;

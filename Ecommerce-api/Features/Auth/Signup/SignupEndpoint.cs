@@ -5,6 +5,7 @@ namespace Ecommerce_api.Features.Auth.Signup;
 
 [ApiController]
 [Route("api/auth")]
+[Tags("Auth")]
 public class SignupEndpoint : ControllerBase
 {
     private readonly SignupHandler _handler;

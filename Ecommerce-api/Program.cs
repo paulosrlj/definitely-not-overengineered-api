@@ -6,6 +6,8 @@ using Ecommerce_api.Features;
 using Ecommerce_api.Infrastructure.Auth;
 using Ecommerce_api.Infrastructure.Cache;
 using Ecommerce_api.Infrastructure.FileStorage;
+using Ecommerce_api.Infrastructure.Payments;
+using Ecommerce_api.Infrastructure.Payments.Stripe;
 using Ecommerce_api.Middleware;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -21,10 +23,7 @@ if (builder.Environment.IsProduction())
 }
 
 builder.Services.AddOpenApi();
-builder.Services.AddControllers(options =>
-{
-    options.Filters.Add<WrapResponseFilter>();
-});
+builder.Services.AddControllers(options => { options.Filters.Add<WrapResponseFilter>(); });
 // builder.Services.AddEndpointsApiExplorer();
 builder.Services.SetupSwagger();
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -33,9 +32,15 @@ builder.Services.AddRedisService(builder.Configuration);
 
 // DI
 builder.Services.AddHttpContextAccessor();
+
+builder.Services.Configure<StripeSettings>(
+    builder.Configuration.GetSection("Stripe")
+);
+
 builder.Services.AddScoped<ICurrentUser, CurrentUser>();
 builder.Services.AddScoped<ICacheService, RedisService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IPaymentService, StripePaymentService>();
 builder.Services.AddFeatures();
 
 

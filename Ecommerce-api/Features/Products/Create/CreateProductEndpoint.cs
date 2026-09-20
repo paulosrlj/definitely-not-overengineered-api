@@ -4,6 +4,7 @@ namespace Ecommerce_api.Features.Products.Create;
 
 [ApiController]
 [Route("api/products")]
+[Tags("Products")]
 public class CreateProductEnpoint : ControllerBase
 {
     private readonly CreateProductHandler _handler;

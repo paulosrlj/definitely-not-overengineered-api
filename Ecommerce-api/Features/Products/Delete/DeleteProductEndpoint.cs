@@ -4,6 +4,7 @@ namespace Ecommerce_api.Features.Products.Delete;
 
 [ApiController]
 [Route("api/products")]
+[Tags("Products")]
 public class DeleteProductEndpoint : ControllerBase
 {
     private readonly DeleteProductHandler _handler;

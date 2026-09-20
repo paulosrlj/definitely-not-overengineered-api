@@ -4,6 +4,7 @@ namespace Ecommerce_api.Features.Users.FindAll;
 
 [ApiController]
 [Route("api/users")]
+[Tags("Users")]
 public class FindAllUsersEndpoint : ControllerBase
 {
     private readonly FindAllUsersHandler _handler;

@@ -5,6 +5,7 @@ namespace Ecommerce_api.Features.Auth.Signin;
 
 [ApiController]
 [Route("api/auth")]
+[Tags("Auth")]
 public class SigninEndpoint : ControllerBase
 {
     private readonly SigninHandler _handler;

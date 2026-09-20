@@ -5,6 +5,7 @@ namespace Ecommerce_api.Features.Orders.FindAll;
 
 [ApiController]
 [Route("api/orders")]
+[Tags("Orders")]
 public class FindAllOrdersEndpoint : ControllerBase
 {
     private readonly FindAllOrdersHandler _handler;

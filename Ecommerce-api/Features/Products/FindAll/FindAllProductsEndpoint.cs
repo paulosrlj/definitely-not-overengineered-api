@@ -5,6 +5,7 @@ namespace Ecommerce_api.Features.Products.FindAll;
 
 [ApiController]
 [Route("api/products")]
+[Tags("Products")]
 public class FindAllProductsEndpoint : ControllerBase
 {
     private readonly FindAllProductsHandler _handler;

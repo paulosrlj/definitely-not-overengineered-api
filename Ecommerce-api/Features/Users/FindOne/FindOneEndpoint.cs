@@ -4,6 +4,7 @@ namespace Ecommerce_api.Features.Users.FindOne;
 
 [ApiController]
 [Route("api/users")]
+[Tags("Users")]
 public class FindOneUserEndpoint : ControllerBase
 {
     private readonly FindOneUserHandler _handler;

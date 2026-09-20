@@ -4,6 +4,7 @@ namespace Ecommerce_api.Features.Categories.Delete;
 
 [ApiController]
 [Route("api/categories")]
+[Tags("Categories")]
 public class DeleteCategoryEndpoint : ControllerBase
 {
     private readonly DeleteCategoryHandler _handler;

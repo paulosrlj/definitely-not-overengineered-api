@@ -4,6 +4,7 @@ namespace Ecommerce_api.Features.Users.Update;
 
 [ApiController]
 [Route("api/users")]
+[Tags("Users")]
 public class UpdateUserEndpoint : ControllerBase
 {
     private readonly UpdateUserHandler _handler;

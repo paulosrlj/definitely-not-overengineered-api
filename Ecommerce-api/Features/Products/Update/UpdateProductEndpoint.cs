@@ -4,6 +4,7 @@ namespace Ecommerce_api.Features.Products.Update;
 
 [ApiController]
 [Route("api/products")]
+[Tags("Products")]
 public class UpdateProductEndpoint : ControllerBase
 {
     private readonly UpdateProductHandler _handler;

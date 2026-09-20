@@ -5,6 +5,7 @@ namespace Ecommerce_api.Features.Products.Search;
 
 [ApiController]
 [Route("api/products")]
+[Tags("Products")]
 public class SearchProductsEndpoint : ControllerBase
 {
     private readonly SearchProductsHandler _handler;
