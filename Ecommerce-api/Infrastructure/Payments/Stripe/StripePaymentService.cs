@@ -41,8 +41,8 @@ public class StripePaymentService : IPaymentService
             ClientReferenceId = request.OrderId.ToString(),
             CustomerEmail = request.CustomerEmail,
             LineItems = lineItems,
-            SuccessUrl = "http://localhost:5230/success",
-            CancelUrl = "http://localhost:5230/cancel",
+            SuccessUrl = "http://localhost:5230/api/webhooks/stripe/success",
+            CancelUrl = "http://localhost:5230/api/webhooks/stripe/failure",
             Metadata = new Dictionary<string, string>
             {
                 ["order_id"] = request.OrderId.ToString()

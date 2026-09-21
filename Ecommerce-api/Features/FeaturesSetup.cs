@@ -1,6 +1,7 @@
 using Ecommerce_api.Features.Auth;
 using Ecommerce_api.Features.Categories;
 using Ecommerce_api.Features.Orders;
+using Ecommerce_api.Features.Payments;
 using Ecommerce_api.Features.Products;
 using Ecommerce_api.Features.Users;
 
@@ -15,7 +16,8 @@ public static class FeaturesSetup
         services.AddCategoryFeature();
         services.AddProductFeature();
         services.AddOrderFeature();
-
+        services.AddPaymentFeature();
+        
         return services;
     }
 }
